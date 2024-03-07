@@ -28,34 +28,6 @@ const questionsObj = {
 };
 
 
-//input name for highscore list
-var gameOver= function () {
-    cleanup();
-    score = timeLeft;
-    let scoreDisplay = document.createElement('h1');
-    let inputLabel = document.createElement('label');
-    inputLabel.className = 'inputLabel';
-    inputLabel.htmlFor = 'intialinput';
-    inputLabel.textContent = 'enter initials';
-
-    let initialInput = document.createElement('input');
-    initialInput.id = 'initialInput';
-    initialInput.className = 'initialInput';
-
-    let buttonSub =  document.createElement('button');
-    buttonSub.className = 'button buttonSub';
-    buttonSub.textContent = 'submit';
-    timerEl.remove();
-    rorH1.remove();
-
-    scoreDisplay.textContent = 'your score is' + score;
-
-    questionContent.appendChild(scoreDisplay);
-    questionContent.appendChild(inputLabel);
-    questionContent.appendChild(initialInput);
-    questionContent.appendChild(buttonSub);
-};
-
 //timer start and end if no score
 var timerStart = function () {
     var clock = setInterval(function() {
@@ -77,24 +49,11 @@ var timerStart = function () {
     
 };
 
-//deletes the question and answer buttons
-var cleanup = function() {
-    let questionNumber = document.querySelector('.questionNum');
-    let questionE1 = document.querySelector('.questionText');
-    let buttonA = document.querySelector('.buttonA');
-    let buttonB = document.querySelector('.buttonB');
-    let buttonC = document.querySelector('.buttonC');
-    let buttonD = document.querySelector('.buttonD');
-
-    //REMOVING QUESTIONS AFTER INTERACTION
-    if (buttonC.classList.contains('button')) {
-        questionNumber.remove();
-        questionE1.remove();
-        buttonA.remove();
-        buttonB.remove();
-        buttonC.remove();
-        buttonD.remove();
-    };
+//starts the quiz
+var startQuiz = function() {
+    const deleteStart = document.getElementById('start');
+    deleteStart.remove();
+    quizE1adder();
 };
 
 //adding questions and anwers to the page
@@ -140,12 +99,61 @@ var quizE1adder = function () {
 
 };
 
-//starts the quiz
-var startQuiz = function() {
-    const deleteStart = document.getElementById('start');
-    deleteStart.remove();
-    quizE1adder();
+//deletes the question and answer buttons
+var cleanup = function() {
+    let questionNumber = document.querySelector('.questionNum');
+    let questionE1 = document.querySelector('.questionText');
+    let buttonA = document.querySelector('.buttonA');
+    let buttonB = document.querySelector('.buttonB');
+    let buttonC = document.querySelector('.buttonC');
+    let buttonD = document.querySelector('.buttonD');
+
+    //REMOVING QUESTIONS AFTER INTERACTION
+    if (buttonC.classList.contains('button')) {
+        questionNumber.remove();
+        questionE1.remove();
+        buttonA.remove();
+        buttonB.remove();
+        buttonC.remove();
+        buttonD.remove();
+    };
 };
+
+//making the buttons interactive for all possible outcomes
+var taskButtonHandler = function(event) {
+    var targetEl = event.target;
+    if (targetEl.classList.contains('buttonStart')) {
+        startQuiz();
+        timerStart();
+    //accounting right answer
+    } else if ((questionCounter === 0 && targetEl.classList.contains('buttonA')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonB')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonD')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonA'))) {rightAnswer();
+    //accounting for end of the quiz
+    } else if (questionCounter >= 6 &&
+        ((targetEl.classList.contains('buttonA') ||
+        targetEl.classList.contains('buttonB') ||
+        targetEl.classList.contains('buttonC') ||
+        targetEl.classList.contains('buttonD')))) {
+        gameOver();
+    //accounting for wrong answer 
+    } else if (targetEl.classList.contains('buttonSub')) {
+        highScore();
+    } else if (targetEl.classList.contains('buttonClear')) {
+        localStorage.clear();
+    } else if (targetEl.classList.contains('button')) {
+        wrongAnswer();
+    }
+
+
+};
+
+//make event listener for button interaction
+main.addEventListener('click', taskButtonHandler);
+
 
 //movinging on to next question if right or wrong
 var rightAnswer = function () {
@@ -164,6 +172,34 @@ var wrongAnswer = function () {
     timeLeft = timeLeft - 10;
     console.log('wrong')
 };
+//input name for highscore list
+var gameOver= function () {
+    cleanup();
+    score = timeLeft;
+    let scoreDisplay = document.createElement('h1');
+    let inputLabel = document.createElement('label');
+    inputLabel.className = 'inputLabel';
+    inputLabel.htmlFor = 'intialinput';
+    inputLabel.textContent = 'enter initials';
+
+    let initialInput = document.createElement('input');
+    initialInput.id = 'initialInput';
+    initialInput.className = 'initialInput';
+
+    let buttonSub =  document.createElement('button');
+    buttonSub.className = 'button buttonSub';
+    buttonSub.textContent = 'submit';
+    timerEl.remove();
+    rorH1.remove();
+
+    scoreDisplay.textContent = 'your score is' + score;
+
+    questionContent.appendChild(scoreDisplay);
+    questionContent.appendChild(inputLabel);
+    questionContent.appendChild(initialInput);
+    questionContent.appendChild(buttonSub);
+};
+
 
 //adding data storage to track the score of different users and displays on screen
  var highScore = function() {
@@ -213,36 +249,3 @@ var wrongAnswer = function () {
    questionContent.appendChild(clearButt);
 };
 
-//making the buttoons interactive for all possible outcomes
-var taskButtonHandler = function(event) {
-    var targetEl = event.target;
-    if (targetEl.classList.contains('buttonStart')) {
-        startQuiz();
-        timerStart();
-    //accounting right answer
-    } else if ((questionCounter === 0 && targetEl.classList.contains('buttonA')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonB')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonD')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonA'))) {rightAnswer();
-    //accounting for end of the quiz
-    } else if (questionCounter >= 6 &&
-        ((targetEl.classList.contains('buttonA') ||
-        targetEl.classList.contains('buttonB') ||
-        targetEl.classList.contains('buttonC') ||
-        targetEl.classList.contains('buttonD')))) {
-        gameOver();
-    //accounting for wrong answer 
-    } else if (targetEl.classList.contains('buttonSub')) {
-        highScore();
-    } else if (targetEl.classList.contains('buttonClear')) {
-        localStorage.clear();
-    } else if (targetEl.classList.contains('button')) {
-        wrongAnswer();
-    }
-
-
-};
-
-main.addEventListener('click', taskButtonHandler);
