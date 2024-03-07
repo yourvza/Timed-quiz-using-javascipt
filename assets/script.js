@@ -29,7 +29,7 @@ const questionsObj = {
 
 
 //input name for highscore list
-var gameOver = function () {
+var gameOver= function () {
     cleanup();
     score = timeLeft;
     let scoreDisplay = document.createElement('h1');
@@ -60,20 +60,20 @@ var gameOver = function () {
 var timerStart = function () {
     var clock = setInterval(function() {
         if (timeLeft > 1) {
-            timer.textContent = timeLeft + 'seconds remaining';
+            timerEl.textContent = timeLeft + 'seconds left';
             timeLeft--;
-        } else if (remainingT < 1 && score > 0) {
-            timerEl.textContent = timeLeft + 'seconds remaining';
+        } else if (timeLeft < 1 && score > 0) {
+            timerEl.textContent = timeLeft + 'seconds left';
             timeLeft--;
-        } else if (remainingT === 1) {
-            timerEl.textContent = timeLeft + 'seconds remaining';
+        } else if (timeLeft === 1) {
+            timerEl.textContent = timeLeft + 'seconds left';
             timeLeft--;
         } else {
             timerEl.textContent = '';
             clearInterval(clock);
             gameOver();
         }
-    }, 1000);
+    }, 100);
     
 };
 
@@ -101,9 +101,9 @@ var cleanup = function() {
 var quizE1adder = function () {
     if (questionCounter < 6) {
 
-        let questionNum = document.createElement("h1");
-        questionNum.className = 'questionNum'
-        questionNum.textContent = 'question' + (questionCounter + 1) + 'out of 10';
+        let questionNumber = document.createElement("h1");
+        questionNumber.className = 'questionNum'
+        questionNumber.textContent = 'question' + (questionCounter + 1) + 'out of 6';
         
         let questionE1 = document.createElement('h1');
         questionE1.className = 'questionText';
@@ -125,15 +125,15 @@ var quizE1adder = function () {
         buttonD.className = 'button buttonC';
         buttonD.textContent = 'D. ' + questionsObj.answerD[questionCounter];
 
-        questionContent.appendChild(questionNum);
+        questionContent.appendChild(questionNumber);
         questionContent.appendChild(questionE1);
         questionContent.appendChild(buttonA);
         questionContent.appendChild(buttonB);
         questionContent.appendChild(buttonC);
         questionContent.appendChild(buttonD);
         
-        if (counter === 5) {
-            counter++;
+        if (questionCounter === 5) {
+            questionCounter++;
         };
 
     };
@@ -153,7 +153,6 @@ var rightAnswer = function () {
     questionCounter++;
     quizE1adder();
     rorH1.textContent = 'right';
-    console.log('right');
 };
 
 var wrongAnswer = function () {
@@ -162,7 +161,6 @@ var wrongAnswer = function () {
     quizE1adder();
     rorH1.textContent = 'wrong';
     timeLeft = timeLeft - 10;
-    console.log('wrong');
 };
 
 //adding data storage to track the score of different users and displays on screen
@@ -193,12 +191,12 @@ var wrongAnswer = function () {
    score5.className = 'list';
    score6.className = 'list';
 
-   score1.textContent = scoreArr2[0];
-   score2.textContent = scoreArr2[1];
-   score3.textContent = scoreArr2[2];
-   score4.textContent = scoreArr2[3];
-   score5.textContent = scoreArr2[4];
-   score6.textContent = scoreArr2[5];
+   score1.textContent = scoreArray[0];
+   score2.textContent = scoreArray[1];
+   score3.textContent = scoreArray[2];
+   score4.textContent = scoreArray[3];
+   score5.textContent = scoreArray[4];
+   score6.textContent = scoreArray[5];
 
    questionContent.appendChild(score1);
    questionContent.appendChild(score2);
@@ -220,14 +218,14 @@ var taskButtonHandler = function(event) {
         startQuiz();
         timerStart();
     //accounting right answer
-    } else if ((counter === 0 && targetEl.classList.contains('buttonA')) ||
-    (counter === 0 && targetEl.classList.contains('buttonC')) ||
-    (counter === 0 && targetEl.classList.contains('buttonC')) ||
-    (counter === 0 && targetEl.classList.contains('buttonB')) ||
-    (counter === 0 && targetEl.classList.contains('buttonD')) ||
-    (counter === 0 && targetEl.classList.contains('buttonA'))) {rightAnswer();
+    } else if ((questionCounter === 0 && targetEl.classList.contains('buttonA')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonB')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonD')) ||
+    (questionCounter === 0 && targetEl.classList.contains('buttonA'))) {rightAnswer();
     //accounting for end of the quiz
-    } else if (counter >= 6 &&
+    } else if (questionCounter >= 6 &&
         ((targetEl.classList.contains('buttonA') ||
         targetEl.classList.contains('buttonB') ||
         targetEl.classList.contains('buttonC') ||
@@ -236,7 +234,7 @@ var taskButtonHandler = function(event) {
     //accounting for wrong answer 
     } else if (targetEl.classList.contains('buttonSub')) {
         highScore();
-    } else if (targetEl.classList.contains('buttonClean')) {
+    } else if (targetEl.classList.contains('buttonClear')) {
         localStorage.clear();
     } else if (targetEl.classList.contains('button')) {
         wrongAnswer();
