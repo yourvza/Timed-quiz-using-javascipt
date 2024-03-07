@@ -10,6 +10,7 @@ let questionCounter = 0
 var scoreArrRaw = localStorage.getItem('score')
 var scoreArray = JSON.parse(scoreArrRaw)
 scoreArray = scoreArray || [];
+var gameOverCalled = false;
  
 //Questions that will be in the quiz
 const questionsObj = {
@@ -116,34 +117,28 @@ var cleanup = function() {
 //making the buttons interactive for all possible outcomes
 var taskButtonHandler = function(event) {
     var targetEl = event.target;
+
     if (targetEl.classList.contains('buttonStart')) {
         startQuiz();
         timerStart();
-    //accounting right answer
-    } else if ((questionCounter === 0 && targetEl.classList.contains('buttonA')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonC')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonB')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonD')) ||
-    (questionCounter === 0 && targetEl.classList.contains('buttonA'))) {rightAnswer();
-    //accounting for end of the quiz
-    } else if (questionCounter >= 6 &&
-        ((targetEl.classList.contains('buttonA') ||
-        targetEl.classList.contains('buttonB') ||
-        targetEl.classList.contains('buttonC') ||
-        targetEl.classList.contains('buttonD')))) {
-        gameOver();
-    //accounting for wrong answer 
-    } else if (targetEl.classList.contains('buttonSub')) {
-        highScore();
+    } else if (questionCounter === 0 && (targetEl.classList.contains('buttonA') ||
+     targetEl.classList.contains('buttonB') ||
+     targetEl.classList.contains('buttonC') ||
+     targetEl.classList.contains('buttonD'))) {
+        rightAnswer();
+    } else if (questionCounter >= 6 && targetEl.classList.contains('buttonSub')) {
+        // Ensure gameOver is called only once
+        if (!gameOverCalled) {
+            gameOver();
+            gameOverCalled = true;
+        }
     } else if (targetEl.classList.contains('buttonClear')) {
         localStorage.clear();
     } else if (targetEl.classList.contains('button')) {
         wrongAnswer();
     }
-
-
 };
+
 
 //make event listener for button interaction
 main.addEventListener('click', taskButtonHandler);
@@ -221,50 +216,28 @@ function createSubmitButton() {
 }
 
 //adding data storage to track the score of different users and displays on screen
- var highScore = function() {
-   let inputEl = document.querySelector('#initialInput');
-   let inputLabel = document.querySelector('.inputLabel');
-   let buttonSub = document.querySelector('.buttonSub');
-   let name = inputEl.value;
-   let nameScore = (name + '  ' + score);
-    
-   removeElements([inputEl, inputLabel, buttonSub]);
+function highScore() {
+    let inputEl = document.querySelector('#initialInput');
+    let inputLabel = document.querySelector('.inputLabel');
+    let buttonSub = document.querySelector('.buttonSub');
+    let name = inputEl.value;
+    let nameScore = name + '  ' + score;
+
+    removeElements([inputEl, inputLabel, buttonSub]);
 
     scoreArray.push(nameScore);
     localStorage.setItem('score', JSON.stringify(scoreArray));
 
+    for (let i = 0; i < 6; i++) {
+        let scoreElement = document.createElement('h2');
+        scoreElement.className = 'list';
+        scoreElement.textContent = scoreArray[i] || ''; 
+        questionContent.appendChild(scoreElement);
+    }
 
-   let score1 = document.createElement('h2');
-   let score2 = document.createElement('h2');
-   let score3 = document.createElement('h2');
-   let score4 = document.createElement('h2');
-   let score5 = document.createElement('h2');
-   let score6 = document.createElement('h2');
-
-   score1.className = 'list';
-   score2.className = 'list';
-   score3.className = 'list';
-   score4.className = 'list';
-   score5.className = 'list';
-   score6.className = 'list';
-
-   score1.textContent = scoreArray[0];
-   score2.textContent = scoreArray[1];
-   score3.textContent = scoreArray[2];
-   score4.textContent = scoreArray[3];
-   score5.textContent = scoreArray[4];
-   score6.textContent = scoreArray[5];
-
-   questionContent.appendChild(score1);
-   questionContent.appendChild(score2);
-   questionContent.appendChild(score3);
-   questionContent.appendChild(score4);
-   questionContent.appendChild(score5);
-   questionContent.appendChild(score6);
-
-   let clearButt = document.createElement('button');
-   clearButt.className = 'button buttonClear';
-   clearButt.textContent = 'clear score';
-   questionContent.appendChild(clearButt);
+    let clearButton = document.createElement('button');
+    clearButton.className = 'button buttonClear';
+    clearButton.textContent = 'clear score';
+    questionContent.appendChild(clearButton);
 };
 
