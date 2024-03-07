@@ -118,7 +118,6 @@ var cleanup = function() {
         buttonD.remove();
     };
 };
-
 //making the buttons interactive for all possible outcomes
 var taskButtonHandler = function(event) {
     var targetEl = event.target;
@@ -156,21 +155,25 @@ main.addEventListener('click', taskButtonHandler);
 
 
 //movinging on to next question if right or wrong
-var rightAnswer = function () {
+function thisQuestion(isCorrect) {
     cleanup();
     questionCounter++;
     quizE1adder();
-    rorH1.textContent = 'right';
-    console.log('right');
+    rorH1.textContent = isCorrect ? 'right' : 'wrong';
+
+    if (!isCorrect) {
+        timeLeft = Math.max(0, timeLeft - 10);
+    }
+
+    console.log(isCorrect ? 'right' : 'wrong');
+}
+
+var rightAnswer = function () {
+    thisQuestion(true);
 };
 
 var wrongAnswer = function () {
-    cleanup();
-    questionCounter++;
-    quizE1adder();
-    rorH1.textContent = 'wrong';
-    timeLeft = timeLeft - 10;
-    console.log('wrong')
+    thisQuestion(false);
 };
 //input name for highscore list
 var gameOver = function () {
