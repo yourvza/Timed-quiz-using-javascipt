@@ -31,22 +31,17 @@ const questionsObj = {
 //timer start and end if no score
 var timerStart = function () {
     var clock = setInterval(function() {
-        if (timeLeft > 1) {
-            timerEl.textContent = timeLeft + 'seconds left';
-            timeLeft--;
-        } else if (timeLeft < 1 && score > 0) {
-            timerEl.textContent = timeLeft + 'seconds left';
-            timeLeft--;
-        } else if (timeLeft === 1) {
-            timerEl.textContent = timeLeft + 'seconds left';
+        if (timeLeft > 0) {
+            timerEl.textContent = timeLeft + ' seconds left';
             timeLeft--;
         } else {
             timerEl.textContent = '';
             clearInterval(clock);
-            gameOver();
+            if (score > 0) {
+                gameOver();
+            }
         }
     }, 1000);
-    
 };
 
 //starts the quiz
