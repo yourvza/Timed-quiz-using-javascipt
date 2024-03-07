@@ -34,7 +34,7 @@ var gameOver= function () {
     score = timeLeft;
     let scoreDisplay = document.createElement('h1');
     let inputLabel = document.createElement('label');
-    inputLabel.className = 'initialInput';
+    inputLabel.className = 'inputLabel';
     inputLabel.htmlFor = 'intialinput';
     inputLabel.textContent = 'enter initials';
 
@@ -153,6 +153,7 @@ var rightAnswer = function () {
     questionCounter++;
     quizE1adder();
     rorH1.textContent = 'right';
+    console.log('right');
 };
 
 var wrongAnswer = function () {
@@ -161,6 +162,7 @@ var wrongAnswer = function () {
     quizE1adder();
     rorH1.textContent = 'wrong';
     timeLeft = timeLeft - 10;
+    console.log('wrong')
 };
 
 //adding data storage to track the score of different users and displays on screen
