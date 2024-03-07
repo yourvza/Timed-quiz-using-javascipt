@@ -230,11 +230,11 @@ function createSubmitButton() {
    let name = inputEl.value;
    let nameScore = (name + '  ' + score);
     
-   inputEl.remove();
-   inputLabel.remove();
-   buttonSub.remove();
-   scoreArray.push(nameScore);
-   localStorage.setItem('score',JSON.stringify(scoreArray));
+   removeElements([inputEl, inputLabel, buttonSub]);
+
+    scoreArray.push(nameScore);
+    localStorage.setItem('score', JSON.stringify(scoreArray));
+
 
    let score1 = document.createElement('h2');
    let score2 = document.createElement('h2');
