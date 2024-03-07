@@ -15,6 +15,7 @@ Please refer to the LICENSE in the repo
 
 ## Link
 
-![image](https://github.com/yourvza/Timed-quiz-using-javascipt/assets/155742735/7e5ea174-5187-4466-870c-31e2b36f365f
+![image](https://github.com/yourvza/Timed-quiz-using-javascipt/assets/155742735/ab98d11d-1c4e-4940-8cca-6310ac1c51d1)
+
 
 
