@@ -161,7 +161,7 @@ var wrongAnswer = function () {
     questionCounter++;
     quizE1adder();
     rorH1.textContent = 'wrong';
-    remainingT = timeLeft - 10;
+    timeLeft = timeLeft - 10;
     console.log('wrong');
 };
 
