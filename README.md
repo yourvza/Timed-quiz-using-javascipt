@@ -14,8 +14,8 @@ JavaScrpit questions were from: https://www.interviewbit.com/javascript-mcq/
 Please refer to the LICENSE in the repo
 
 ## Link
+![image](https://github.com/yourvza/Timed-quiz-using-javascipt/assets/155742735/530daa6b-392f-4c1e-9c88-19d6193f4eca)
 
-![image](https://github.com/yourvza/Timed-quiz-using-javascipt/assets/155742735/ab98d11d-1c4e-4940-8cca-6310ac1c51d1)
 
 
 
