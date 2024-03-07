@@ -62,7 +62,7 @@ var quizE1adder = function () {
 
         let questionNumber = document.createElement("h1");
         questionNumber.className = 'questionNum'
-        questionNumber.textContent = 'question' + (questionCounter + 1) + 'out of 6';
+        questionNumber.textContent = 'question ' + (questionCounter + 1) + ' out of 6';
         
         let questionE1 = document.createElement('h1');
         questionE1.className = 'questionText';
@@ -173,33 +173,54 @@ var wrongAnswer = function () {
     console.log('wrong')
 };
 //input name for highscore list
-var gameOver= function () {
+var gameOver = function () {
     cleanup();
     score = timeLeft;
-    let scoreDisplay = document.createElement('h1');
-    let inputLabel = document.createElement('label');
-    inputLabel.className = 'inputLabel';
-    inputLabel.htmlFor = 'intialinput';
-    inputLabel.textContent = 'enter initials';
-
-    let initialInput = document.createElement('input');
-    initialInput.id = 'initialInput';
-    initialInput.className = 'initialInput';
-
-    let buttonSub =  document.createElement('button');
-    buttonSub.className = 'button buttonSub';
-    buttonSub.textContent = 'submit';
+    let scoreDisplay = createScoreDisplay(score);
+    let inputLabel = createInputLabel();
+    let initialInput = createInitialInput();
+    let submitButton = createSubmitButton();
+    // Remove unnecessary elements
     timerEl.remove();
     rorH1.remove();
-
-    scoreDisplay.textContent = 'your score is' + score;
 
     questionContent.appendChild(scoreDisplay);
     questionContent.appendChild(inputLabel);
     questionContent.appendChild(initialInput);
-    questionContent.appendChild(buttonSub);
+    questionContent.appendChild(submitButton);
 };
 
+//create score display
+function createScoreDisplay(score) {
+    let scoreDisplay = document.createElement('h1');
+    scoreDisplay.textContent = 'Your score is ' + score;
+    return scoreDisplay;
+}
+
+//create input label element
+function createInputLabel() {
+    let inputLabel = document.createElement('label');
+    inputLabel.className = 'inputLabel';
+    inputLabel.htmlFor = 'initialInput';
+    inputLabel.textContent = 'Enter initials';
+    return inputLabel;
+}
+
+//create initial input
+function createInitialInput() {
+    let initialInput = document.createElement('input');
+    initialInput.id = 'initialInput';
+    initialInput.className = 'initialInput';
+    return initialInput;
+}
+
+//create submit button element
+function createSubmitButton() {
+    let submitButton = document.createElement('button');
+    submitButton.className = 'button buttonSub';
+    submitButton.textContent = 'Submit';
+    return submitButton;
+}
 
 //adding data storage to track the score of different users and displays on screen
  var highScore = function() {
