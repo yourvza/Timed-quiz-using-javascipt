@@ -73,7 +73,7 @@ var timerStart = function () {
             clearInterval(clock);
             gameOver();
         }
-    }, 100);
+    }, 1000);
     
 };
 
@@ -122,7 +122,7 @@ var quizE1adder = function () {
         buttonC.textContent = 'C. ' + questionsObj.answerC[questionCounter];
 
         let buttonD = document.createElement('button');
-        buttonD.className = 'button buttonC';
+        buttonD.className = 'button buttonD';
         buttonD.textContent = 'D. ' + questionsObj.answerD[questionCounter];
 
         questionContent.appendChild(questionNumber);
